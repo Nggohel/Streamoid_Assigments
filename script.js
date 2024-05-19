@@ -11,7 +11,7 @@ function saveState() {
 function drawShape(shapeType) {
   var color = document.getElementById("colorPicker").value;
 
-  canvas.off("mouse:down");
+ 
 
   canvas.on("mouse:down", function (options) {
     var pointer = canvas.getPointer(options.e);
@@ -86,9 +86,23 @@ function group() {
 
 function changeColor() {
   var activeObject = canvas.getActiveObject();
+  console.log("single", activeObject);
+  var activeObjects = canvas.getActiveObjects();
+  console.log("activeObjects", activeObjects);
   if (activeObject) {
     activeObject.set({
       fill: document.getElementById("colorPicker").value,
+    });
+    canvas.requestRenderAll();
+    saveState();
+  }
+
+  if (activeObjects.length > 0) {
+    activeObjects.forEach(function (obj) {
+      console.log("insideforeach");
+      obj.set({
+        fill: document.getElementById("colorPicker").value,
+      });
     });
     canvas.requestRenderAll();
     saveState();
